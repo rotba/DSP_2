@@ -42,7 +42,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>twogramworccount.Main</mainClass>
+                            <mainClass>MasterMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -1,11 +1,10 @@
 package onegramwordcount;
 
-import common.DecadeBiGram;
+import common.DecadeBigramKey;
+import common.DecadeBigramValue;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.TextInputFormat;
 import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
@@ -17,10 +16,10 @@ public class Main {
         Job job = Job.getInstance(conf, "word count histogram");
         job.setJarByClass(Main.class);
         job.setMapperClass(OGWCMapper.class);
-        job.setCombinerClass(OGWCReducer.class);
         job.setReducerClass(OGWCReducer.class);
-        job.setOutputKeyClass(DecadeBiGram.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setMapOutputValueClass(IntWritable.class);
+        job.setOutputKeyClass(DecadeBigramKey.class);
+        job.setOutputValueClass(DecadeBigramValue.class);
         job.setInputFormatClass(OGWCInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
         OGWCInputFormat.addInputPath(job, new Path(args[0]));

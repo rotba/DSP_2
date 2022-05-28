@@ -1,23 +1,21 @@
 package twogramworccount;
 
-import common.DecadeBiGram;
+import common.DecadeBigramKey;
+import common.DecadeBigramValue;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
 public class TGWCReducer
-        extends Reducer<DecadeBiGram, IntWritable, DecadeBiGram, IntWritable> {
-    private IntWritable result = new IntWritable();
-
-    public void reduce(DecadeBiGram key, Iterable<IntWritable> values,
+        extends Reducer<DecadeBigramKey, IntWritable, DecadeBigramKey, DecadeBigramValue> {
+    public void reduce(DecadeBigramKey key, Iterable<IntWritable> values,
                        Context context
     ) throws IOException, InterruptedException {
         int sum = 0;
         for (IntWritable val : values) {
             sum += val.get();
         }
-        result.set(sum);
-        context.write(key, result);
+        context.write(key, new DecadeBigramValue(-1,-1,sum, -1));
     }
 }

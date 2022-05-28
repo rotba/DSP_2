@@ -1,6 +1,7 @@
 package twogramworccount;
 
-import common.DecadeBiGram;
+import common.DecadeBigramKey;
+import common.DecadeBigramValue;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -15,10 +16,10 @@ public class Main {
         Job job = Job.getInstance(conf, "word count histogram");
         job.setJarByClass(Main.class);
         job.setMapperClass(TGWCMapper.class);
-        job.setCombinerClass(TGWCReducer.class);
         job.setReducerClass(TGWCReducer.class);
-        job.setOutputKeyClass(DecadeBiGram.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setMapOutputValueClass(IntWritable.class);
+        job.setOutputKeyClass(DecadeBigramKey.class);
+        job.setOutputValueClass(DecadeBigramValue.class);
         job.setInputFormatClass(TGWCInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
         TGWCInputFormat.addInputPath(job, new Path(args[0]));
