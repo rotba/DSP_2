@@ -9,6 +9,8 @@ public class MasterMain {
             nc1appender.Main.main(subarray);
         }else if(job.equals("C2CLC")){
             c2appender.Main.main(subarray);
+        }else if(job.equals("LKL")){
+            likelihood.Main.main(subarray);
         }
     }
 }
