@@ -42,7 +42,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>decadecount.Main</mainClass>
+                            <mainClass>twogramworccount.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
