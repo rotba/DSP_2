@@ -42,7 +42,6 @@ public class TGWCRecordReader extends RecordReader<YearBiGram, IntWritable> {
     @Override
     public boolean nextKeyValue() throws IOException, InterruptedException {
         if (reader.nextKeyValue()) {
-            logger.log(Level.ERROR, "nextKeyValue");
             String[] line = reader.getCurrentValue().toString().split("\\s+");
             key = new YearBiGram(line[YEAR_IDX], line[0], line[1]);
             value = new IntWritable(Integer.parseInt(line[YEAR_IDX]+1));

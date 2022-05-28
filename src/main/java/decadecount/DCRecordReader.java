@@ -42,7 +42,6 @@ public class DCRecordReader extends RecordReader<Year, IntWritable> {
     @Override
     public boolean nextKeyValue() throws IOException, InterruptedException {
         if (reader.nextKeyValue()) {
-            logger.log(Level.ERROR, "nextKeyValue");
             String[] line = reader.getCurrentValue().toString().split("\\s+");
             key = new Year(line[YEAR_IDX]);
             value = new IntWritable(Integer.parseInt(line[YEAR_IDX]+1));

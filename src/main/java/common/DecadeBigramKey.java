@@ -9,28 +9,24 @@ public class DecadeBigramKey implements WritableComparable<DecadeBigramKey>{
     protected String decade;
     protected String w1;
     protected String w2;
-    protected boolean keyIsW2;
     public static final String STAR = "*";
 
     public DecadeBigramKey() {
         this.decade = null;
         this.w1 = null;
         this.w2 = null;
-        this.keyIsW2 = false;
     }
 
-    public DecadeBigramKey(String decade, String w1, String w2, boolean keyIsW2) {
+    public DecadeBigramKey(String decade, String w1, String w2) {
         this.decade = decade;
         this.w1 = w1;
         this.w2 = w2;
-        this.keyIsW2 = keyIsW2;
     }
 
-    public DecadeBigramKey(String decade, String w1, boolean keyIsW2) {
+    public DecadeBigramKey(String decade, String w1) {
         this.decade = decade;
         this.w1 = w1;
         this.w2 = STAR;
-        this.keyIsW2 = keyIsW2;
     }
 
     public String getDecade() {
@@ -45,22 +41,16 @@ public class DecadeBigramKey implements WritableComparable<DecadeBigramKey>{
         return w2;
     }
 
-    public boolean isKeyIsW2() {
-        return keyIsW2;
-    }
-
     public void readFields(DataInput in) throws IOException {
         decade = in.readUTF();
         w1 = in.readUTF();
         w2 = in.readUTF();
-        keyIsW2 = in.readBoolean();
     }
 
     public void write(DataOutput out) throws IOException {
         out.writeUTF(decade);
         out.writeUTF(w1);
         out.writeUTF(w2);
-        out.writeBoolean(keyIsW2);
     }
 
     public int compareTo(DecadeBigramKey other) {

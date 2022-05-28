@@ -16,7 +16,6 @@ public class DCMapper
 
     public void map(Year key, IntWritable value, Context context
     ) throws IOException, InterruptedException {
-        logger.log(Level.ERROR, "map");
         context.write(new Text(toDecade(key.year)), value);
     }
 }

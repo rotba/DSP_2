@@ -4,6 +4,7 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.LineRecordReader;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
@@ -12,6 +13,7 @@ public class DecadeBiagramRecordReader extends RecordReader<DecadeBigramKey, Dec
     protected LineRecordReader reader;
     protected DecadeBigramKey key;
     protected DecadeBigramValue value;
+    public static final Logger logger = Logger.getLogger(DecadeBiagramRecordReader.class);
 
     public DecadeBiagramRecordReader() {
         reader = new LineRecordReader();
@@ -35,12 +37,13 @@ public class DecadeBiagramRecordReader extends RecordReader<DecadeBigramKey, Dec
     public boolean nextKeyValue() throws IOException, InterruptedException {
         if (reader.nextKeyValue()) {
             String[] line = reader.getCurrentValue().toString().split("\\s+");
-            key = new DecadeBigramKey(line[0], line[1], line[2], false);
+            key = new DecadeBigramKey(line[0], line[1], line[2]);
             value = new DecadeBigramValue(
                     Integer.parseInt(line[3]),
                     Integer.parseInt(line[4]),
                     Integer.parseInt(line[5]),
                     Integer.parseInt(line[6]));
+            logger.info(String.format("key: %s, val: %s", key.toString(), value.toString()));
             return true;
         } else {
             key = null;

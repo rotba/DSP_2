@@ -43,7 +43,6 @@ public class OGWCRecordReader extends RecordReader<YearOneGram, IntWritable> {
     @Override
     public boolean nextKeyValue() throws IOException, InterruptedException {
         if (reader.nextKeyValue()) {
-            logger.log(Level.ERROR, "nextKeyValue");
             String[] line = reader.getCurrentValue().toString().split("\\s+");
             key = new YearOneGram(line[YEAR_IDX], line[0]);
             value = new IntWritable(Integer.parseInt(line[YEAR_IDX]+1));

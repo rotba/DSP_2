@@ -22,7 +22,6 @@ public class DCInputFormat extends FileInputFormat<Year, IntWritable> {
     public RecordReader<Year, IntWritable>
     createRecordReader(InputSplit split,
                        TaskAttemptContext context) {
-        logger.log(Level.ERROR, "createRecordReader");
         return new DCRecordReader();
     }
 

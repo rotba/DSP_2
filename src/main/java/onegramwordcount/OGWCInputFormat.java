@@ -23,7 +23,6 @@ public class OGWCInputFormat extends FileInputFormat<YearOneGram, IntWritable> {
     public RecordReader<YearOneGram, IntWritable>
     createRecordReader(InputSplit split,
                        TaskAttemptContext context) {
-        logger.log(Level.ERROR, "createRecordReader");
         return new OGWCRecordReader();
     }
 

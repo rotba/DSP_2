@@ -17,6 +17,6 @@ public class OGWCMapper
     public void map(YearOneGram key, IntWritable value, Context context
     ) throws IOException, InterruptedException {
         logger.log(Level.ERROR, "map");
-        context.write(new DecadeBigramKey(toDecade(key.year), key.w, false), value);
+        context.write(new DecadeBigramKey(toDecade(key.year), key.w), value);
     }
 }

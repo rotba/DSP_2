@@ -16,7 +16,7 @@ public class TGWCMapper
 
     public void map(YearBiGram key, IntWritable value, Context context
     ) throws IOException, InterruptedException {
-        logger.log(Level.ERROR, "map");
-        context.write(new DecadeBigramKey(toDecade(key.year), key.w1,key.w2, false), value);
+//        logger.log(Level.ERROR, "map");
+        context.write(new DecadeBigramKey(toDecade(key.year), key.w1,key.w2), value);
     }
 }

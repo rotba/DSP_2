@@ -1,30 +1,25 @@
-package nc1appender;
+package c2appender;
 
 import common.DecadeBigramKey;
 import common.DecadeBigramValue;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.HashMap;
 
-public class NC1AReducer
+public class C2AReducer
         extends Reducer<DecadeBigramKey, DecadeBigramValue, DecadeBigramKey, DecadeBigramValue> {
-    HashMap<String, Long> decadeTable = new HashMap<>();
-    int lastC1;
+    int lastC2;
+    String lastW2;
+    private static boolean DEBUG_MODE = true;
 
     @Override
     protected void setup(Reducer<DecadeBigramKey, DecadeBigramValue, DecadeBigramKey, DecadeBigramValue>.Context context) throws IOException, InterruptedException {
         super.setup(context);
-        decadeTable = Utils.toMap(context.getConfiguration().get(Main.DECADE_TABLE));
     }
 
     public void reduce(DecadeBigramKey key, Iterable<DecadeBigramValue> values,
                        Context context
     ) throws IOException, InterruptedException {
-//        Main.logger.info(String.format("w1: %s, w2: %s", key.getW1(), key.getW2()));
         if(key.getW2().equals(DecadeBigramKey.STAR)){
             reduceOGram(key, values, context);
         }else{
@@ -33,23 +28,26 @@ public class NC1AReducer
     }
 
     private void reduceTGram(DecadeBigramKey key, Iterable<DecadeBigramValue> values, Reducer<DecadeBigramKey, DecadeBigramValue, DecadeBigramKey, DecadeBigramValue>.Context context) throws IOException, InterruptedException {
-        Long N = decadeTable.get(key.getDecade());
-        if(N == null){
-            Main.logger.info(String.format("no N for decade %s shouldnt happen", key.getDecade()));
-            return;
-        }
-        int sum = 0;
+        DecadeBigramValue theVal = null;
         for (DecadeBigramValue val : values) {
-            sum += val.c12;
+            assert theVal!=null;
+            theVal = val;
         }
-        context.write(key, new DecadeBigramValue(lastC1, -1, sum, Math.toIntExact(N)));
+        if(!DEBUG_MODE){
+            assert lastW2.equals(key.getW2());
+        }
+        DecadeBigramValue valueout = new DecadeBigramValue(theVal.c1, lastC2, theVal.c12, theVal.N);
+        assert valueout.c1!=-1 && valueout.getC2()!=-1 && valueout.getC12()!=-1 && valueout.getN()!=-1;
+        context.write(new DecadeBigramKey(key.getDecade(), key.getW2(), key.getW1()), valueout);
     }
 
     private void reduceOGram(DecadeBigramKey key, Iterable<DecadeBigramValue> values, Reducer<DecadeBigramKey, DecadeBigramValue, DecadeBigramKey, DecadeBigramValue>.Context context) {
-        int sum = 0;
+        DecadeBigramValue theVal=null;
         for (DecadeBigramValue val : values) {
-            sum += val.c1;
+            assert theVal==null;
+            theVal = val;
         }
-        lastC1 = sum;
+        lastC2 = theVal.getC1();
+        lastW2 = key.getW2();
     }
 }
