@@ -42,7 +42,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>onegramwordcount.Main</mainClass>
+                            <mainClass>decadecount.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
