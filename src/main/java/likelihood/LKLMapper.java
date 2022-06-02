@@ -19,6 +19,6 @@ public class LKLMapper
     }
 
     private double calcLikelyHood(int c1, int c2, int c12, int n) {
-        return LogLikelihood.logLikelihoodRatio(c12, c1, c2, n);
+        return -2*LogLikelihood.logLikelihoodRatio(c12, c1, c2, n);
     }
 }

@@ -37,4 +37,12 @@ public class YearOneGram implements Writable {
         out.writeUTF(year);
         out.writeUTF(w);
     }
+
+    @Override
+    public String toString() {
+        return "YearOneGram{" +
+                "year='" + year + '\'' +
+                ", w='" + w + '\'' +
+                '}';
+    }
 }

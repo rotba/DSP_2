@@ -44,7 +44,7 @@ public class DCRecordReader extends RecordReader<Year, IntWritable> {
         if (reader.nextKeyValue()) {
             String[] line = reader.getCurrentValue().toString().split("\\s+");
             key = new Year(line[YEAR_IDX]);
-            value = new IntWritable(Integer.parseInt(line[YEAR_IDX]+1));
+            value = new IntWritable(Integer.parseInt(line[YEAR_IDX+1]));
             return true;
         } else {
             key = null;

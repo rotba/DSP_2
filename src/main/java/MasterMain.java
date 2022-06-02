@@ -7,10 +7,16 @@ public class MasterMain {
         System.arraycopy(args, 1, subarray, 0, subarray.length);
         if (job.equals("NC1AP")) {
             nc1appender.Main.main(subarray);
-        }else if(job.equals("C2CLC")){
+        }else if(job.equals("C2AP")){
             c2appender.Main.main(subarray);
         }else if(job.equals("LKL")){
             likelihood.Main.main(subarray);
+        }else if(job.equals("OGWC")){
+            onegramwordcount.Main.main(subarray);
+        }else if(job.equals("TGWC")){
+            twogramworccount.Main.main(subarray);
+        }else if(job.equals("DECC")){
+            decadecount.Main.main(subarray);
         }
     }
 }

@@ -1,5 +1,6 @@
 package onegramwordcount;
 
+import nc1appender.Main;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.InputSplit;
@@ -45,7 +46,8 @@ public class OGWCRecordReader extends RecordReader<YearOneGram, IntWritable> {
         if (reader.nextKeyValue()) {
             String[] line = reader.getCurrentValue().toString().split("\\s+");
             key = new YearOneGram(line[YEAR_IDX], line[0]);
-            value = new IntWritable(Integer.parseInt(line[YEAR_IDX]+1));
+            value = new IntWritable(Integer.parseInt(line[YEAR_IDX+1]));
+//            logger.info(String.format("key:%s, val:%d", key, value.get()));
             return true;
         } else {
             key = null;

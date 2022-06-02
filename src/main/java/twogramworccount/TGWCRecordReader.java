@@ -44,7 +44,7 @@ public class TGWCRecordReader extends RecordReader<YearBiGram, IntWritable> {
         if (reader.nextKeyValue()) {
             String[] line = reader.getCurrentValue().toString().split("\\s+");
             key = new YearBiGram(line[YEAR_IDX], line[0], line[1]);
-            value = new IntWritable(Integer.parseInt(line[YEAR_IDX]+1));
+            value = new IntWritable(Integer.parseInt(line[YEAR_IDX+1]));
             return true;
         } else {
             key = null;
