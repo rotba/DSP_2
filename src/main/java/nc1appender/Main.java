@@ -5,9 +5,7 @@ import common.DecadeBigramInputFormat;
 import common.DecadeBigramValue;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataInputStream;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.*;
 import org.apache.hadoop.mapred.join.TupleWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -21,10 +19,21 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
-        Path path = new Path(args[0]);
-        FileSystem fs = path.getFileSystem(conf);
-        FSDataInputStream inputStream = fs.open(path);
-        String decadeTable = IOUtils.toString(inputStream, "UTF-8");;
+
+        FileSystem fs = FileSystem.get(conf);
+
+        //the second boolean parameter here sets the recursion to true
+        RemoteIterator<LocatedFileStatus> fileStatusListIterator = fs.listFiles(
+                new Path(args[0]), true);
+        String decadeTable = "";
+        while(fileStatusListIterator.hasNext()){
+            LocatedFileStatus fileStatus = fileStatusListIterator.next();
+            Path path = fileStatus.getPath();
+            if (path.getName().contains("part")){
+                FSDataInputStream inputStream = fs.open(path);
+                decadeTable += IOUtils.toString(inputStream, "UTF-8");
+            }
+        }
         conf.set(DECADE_TABLE, decadeTable);
         conf.reloadConfiguration();
         fs.close();
