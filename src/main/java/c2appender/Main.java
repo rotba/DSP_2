@@ -2,6 +2,7 @@ package c2appender;
 
 import common.DecadeBigramInputFormat;
 import common.DecadeBigramKey;
+import common.DecadeBigramPartitioner;
 import common.DecadeBigramValue;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -20,6 +21,7 @@ public class Main {
         job.setJarByClass(Main.class);
         job.setMapperClass(C2AMapper.class);
         job.setReducerClass(C2AReducer.class);
+        job.setPartitionerClass(DecadeBigramPartitioner.class);
         job.setOutputKeyClass(DecadeBigramKey.class);
         job.setOutputValueClass(DecadeBigramValue.class);
         job.setInputFormatClass(DecadeBigramInputFormat.class);

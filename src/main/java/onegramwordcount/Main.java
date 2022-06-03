@@ -1,6 +1,7 @@
 package onegramwordcount;
 
 import common.DecadeBigramKey;
+import common.DecadeBigramPartitioner;
 import common.DecadeBigramValue;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -17,6 +18,7 @@ public class Main {
         job.setJarByClass(Main.class);
         job.setMapperClass(OGWCMapper.class);
         job.setReducerClass(OGWCReducer.class);
+        job.setPartitionerClass(DecadeBigramPartitioner.class);
         job.setMapOutputValueClass(IntWritable.class);
         job.setOutputKeyClass(DecadeBigramKey.class);
         job.setOutputValueClass(DecadeBigramValue.class);

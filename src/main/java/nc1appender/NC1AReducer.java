@@ -24,7 +24,7 @@ public class NC1AReducer
     public void reduce(DecadeBigramKey key, Iterable<DecadeBigramValue> values,
                        Context context
     ) throws IOException, InterruptedException {
-//        Main.logger.info(String.format("w1: %s, w2: %s", key.getW1(), key.getW2()));
+        Main.logger.info(String.format("w1: %s, w2: %s", key.getW1(), key.getW2()));
         if(key.getW2().equals(DecadeBigramKey.STAR)){
             reduceOGram(key, values, context);
         }else{

@@ -10,9 +10,6 @@ public class Utils {
         String[] lines = s.split("\n");
         for (int i = 0; i < lines.length; i++) {
             String[] line = lines[i].split("\\s+");
-            if(line.length<2){
-                continue;
-            }
             map.put(line[0], Long.parseLong(line[1]));
         }
         return map;

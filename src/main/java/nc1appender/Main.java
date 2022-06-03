@@ -2,10 +2,13 @@ package nc1appender;
 
 import common.DecadeBigramKey;
 import common.DecadeBigramInputFormat;
+import common.DecadeBigramPartitioner;
 import common.DecadeBigramValue;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.*;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapred.join.TupleWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
