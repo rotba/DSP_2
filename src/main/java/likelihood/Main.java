@@ -2,6 +2,7 @@ package likelihood;
 
 import common.DecadeBigramInputFormat;
 import common.DecadeBigramKey;
+import common.Props;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
@@ -25,6 +26,7 @@ public class Main {
         job.setOutputValueClass(DoubleWritable.class);
         job.setInputFormatClass(DecadeBigramInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
+        if(Props.LOCAL) job.setNumReduceTasks(3);
         DecadeBigramInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
         System.exit(job.waitForCompletion(true) ? 0 : 1);

@@ -2,6 +2,7 @@ package nc1appender;
 
 import common.DecadeBigramKey;
 import common.DecadeBigramValue;
+import common.Props;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -24,7 +25,7 @@ public class NC1AReducer
     public void reduce(DecadeBigramKey key, Iterable<DecadeBigramValue> values,
                        Context context
     ) throws IOException, InterruptedException {
-        Main.logger.info(String.format("w1: %s, w2: %s", key.getW1(), key.getW2()));
+        if(Props.DEBUG_MODE) Main.logger.info(String.format("w1: %s, w2: %s", key.getW1(), key.getW2()));
         if(key.getW2().equals(DecadeBigramKey.STAR)){
             reduceOGram(key, values, context);
         }else{

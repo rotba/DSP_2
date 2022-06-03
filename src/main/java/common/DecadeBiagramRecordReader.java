@@ -43,7 +43,7 @@ public class DecadeBiagramRecordReader extends RecordReader<DecadeBigramKey, Dec
                     Integer.parseInt(line[4]),
                     Integer.parseInt(line[5]),
                     Integer.parseInt(line[6]));
-            logger.info(String.format("key: %s, val: %s", key.toString(), value.toString()));
+            if(Props.DEBUG_MODE) logger.info(String.format("key: %s, val: %s", key.toString(), value.toString()));
             return true;
         } else {
             key = null;

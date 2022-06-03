@@ -1,10 +1,18 @@
+import c2appender.Main;
+import common.Props;
+import org.apache.log4j.Logger;
 
 public class MasterMain {
-    public static final boolean DEBUG_MODE = true;
+    public static final Logger logger = Logger.getLogger(MasterMain.class);
     public static void main(String[] args) throws Exception {
         String job = args[0];
-        String[] subarray = new String[args.length - 1];
-        System.arraycopy(args, 1, subarray, 0, subarray.length);
+        String debugMode = args[1];
+        String local = args[2];
+        Props.DEBUG_MODE = debugMode.equals("1")? true: false;
+        Props.LOCAL = local.equals("1")? true: false;
+        logger.info(String.format("DEBUG_MODE=%b, LOCAL=%b", Props.DEBUG_MODE, Props.LOCAL));
+        String[] subarray = new String[args.length - 3];
+        System.arraycopy(args, 3, subarray, 0, subarray.length);
         if (job.equals("NC1AP")) {
             nc1appender.Main.main(subarray);
         }else if(job.equals("C2AP")){

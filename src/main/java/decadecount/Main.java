@@ -1,6 +1,7 @@
 package decadecount;
 
 import common.DecadeBigramPartitioner;
+import common.Props;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -18,11 +19,12 @@ public class Main {
         job.setMapperClass(DCMapper.class);
         job.setCombinerClass(DCReducer.class);
         job.setReducerClass(DCReducer.class);
-        job.setPartitionerClass(DecadeBigramPartitioner.class);
+        job.setPartitionerClass(DecadeCountPrtitioner.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
         job.setInputFormatClass(DCInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
+        if(Props.LOCAL) job.setNumReduceTasks(3);
         DCInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
         System.exit(job.waitForCompletion(true) ? 0 : 1);

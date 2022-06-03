@@ -61,7 +61,7 @@ public class DecadeBigramKey implements WritableComparable<DecadeBigramKey>{
         }else if(w2.equals(STAR)){
             return -1;
         }else if(other.w2.equals(STAR)){
-            return -1;
+            return 1;
         }else{
             return w2.compareTo(other.w2);
         }

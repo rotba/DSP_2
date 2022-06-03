@@ -1,9 +1,6 @@
 package c2appender;
 
-import common.DecadeBigramInputFormat;
-import common.DecadeBigramKey;
-import common.DecadeBigramPartitioner;
-import common.DecadeBigramValue;
+import common.*;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
@@ -26,6 +23,7 @@ public class Main {
         job.setOutputValueClass(DecadeBigramValue.class);
         job.setInputFormatClass(DecadeBigramInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
+        if(Props.LOCAL) job.setNumReduceTasks(3);
         DecadeBigramInputFormat.addInputPath(job, new Path(args[0]));
         DecadeBigramInputFormat.addInputPath(job, new Path(args[1]));
         FileOutputFormat.setOutputPath(job, new Path(args[2]));
