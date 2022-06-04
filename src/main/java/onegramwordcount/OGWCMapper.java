@@ -1,6 +1,7 @@
 package onegramwordcount;
 
 import common.DecadeBigramKey;
+import common.StopWords;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.log4j.Level;
@@ -16,6 +17,11 @@ public class OGWCMapper
 
     public void map(YearOneGram key, IntWritable value, Context context
     ) throws IOException, InterruptedException {
-        context.write(new DecadeBigramKey(toDecade(key.year), key.w), value);
+        if(
+                !key.isEmpty() &&
+                        !StopWords.stopWords.contains(key.getW().toLowerCase())
+        ){
+            context.write(new DecadeBigramKey(toDecade(key.year), key.w), value);
+        }
     }
 }

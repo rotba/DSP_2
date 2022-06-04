@@ -1,5 +1,6 @@
 package onegramwordcount;
 
+import common.Props;
 import nc1appender.Main;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -44,10 +45,21 @@ public class OGWCRecordReader extends RecordReader<YearOneGram, IntWritable> {
     @Override
     public boolean nextKeyValue() throws IOException, InterruptedException {
         if (reader.nextKeyValue()) {
-            String[] line = reader.getCurrentValue().toString().split("\\s+");
-            key = new YearOneGram(line[YEAR_IDX], line[0]);
-            value = new IntWritable(Integer.parseInt(line[YEAR_IDX+1]));
-//            logger.info(String.format("key:%s, val:%d", key, value.get()));
+            try{
+                if(Props.DEBUG_MODE)logger.info(String.format("line:%s", reader.getCurrentValue()));
+                String[] line = reader.getCurrentValue().toString().split("\\s+");
+                key = new YearOneGram(line[YEAR_IDX], line[0]);
+                value = new IntWritable(Integer.parseInt(line[YEAR_IDX+1]));
+                if(Props.DEBUG_MODE)logger.info(String.format("key:%s, val:%d", key, value.get()));
+            }catch (Exception e){
+                key = new YearOneGram(true);
+                value = new IntWritable(0);
+                logger.error(String.format("couldnt parse line key:%s, exception message:%s", reader.getCurrentValue(), e.getMessage()));
+            }catch (Throwable t){
+                key = new YearOneGram(true);
+                value = new IntWritable(0);
+                logger.error(String.format("couldnt parse line key:%s, exception message:%s", reader.getCurrentValue(), t.getMessage()));
+            }
             return true;
         } else {
             key = null;

@@ -16,6 +16,8 @@ public class DCMapper
 
     public void map(Year key, IntWritable value, Context context
     ) throws IOException, InterruptedException {
-        context.write(new Text(toDecade(key.year)), value);
+        if(value.get() >0){
+            context.write(new Text(toDecade(key.year)), value);
+        }
     }
 }

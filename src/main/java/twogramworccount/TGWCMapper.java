@@ -1,6 +1,7 @@
 package twogramworccount;
 
 import common.DecadeBigramKey;
+import common.StopWords;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.log4j.Level;
@@ -17,6 +18,13 @@ public class TGWCMapper
     public void map(YearBiGram key, IntWritable value, Context context
     ) throws IOException, InterruptedException {
 //        logger.log(Level.ERROR, "map");
-        context.write(new DecadeBigramKey(toDecade(key.year), key.w1,key.w2), value);
+
+        if (
+                !key.isEmpty() &&
+                        !StopWords.stopWords.contains(key.getW1().toLowerCase()) &&
+                        !StopWords.stopWords.contains(key.getW2().toLowerCase())
+        ) {
+            context.write(new DecadeBigramKey(toDecade(key.year), key.w1, key.w2), value);
+        }
     }
 }

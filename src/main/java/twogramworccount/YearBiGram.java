@@ -12,16 +12,28 @@ public class YearBiGram implements Writable {
     protected String w1;
     protected String w2;
 
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    protected boolean empty;
+
     public YearBiGram() {
         this.year = null;
         this.w1 = null;
         this.w2 = null;
+        this.empty = false;
     }
 
     public YearBiGram(String year, String w1, String w2) {
         this.year = year;
         this.w1 = w1;
         this.w2 = w2;
+        this.empty = false;
+    }
+
+    public YearBiGram(boolean empty) {
+        this.empty = empty;
     }
 
     public String getYear() {
@@ -40,16 +52,22 @@ public class YearBiGram implements Writable {
         year = in.readUTF();
         w1 = in.readUTF();
         w2 = in.readUTF();
+        empty = in.readBoolean();
     }
 
     public void write(DataOutput out) throws IOException {
         out.writeUTF(year);
         out.writeUTF(w1);
         out.writeUTF(w2);
+        out.writeBoolean(empty);
     }
 
     @Override
     public String toString() {
-        return year +'\t'+w1+'\t'+w2;
+        if (isEmpty()){
+            return "-2000" +'\t'+"was"+'\t'+"was";
+        }else{
+            return year +'\t'+w1+'\t'+w2;
+        }
     }
 }
