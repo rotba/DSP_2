@@ -13,7 +13,7 @@
 - build the emr jar:
  - `cd EMR_runner`
  - `mvn compile assembly:single`
- - `java -jar target/<the generated jar> CLUSTER_ID` <language>
+ - `java -jar target/<the generated jar> CLUSTER_ID <language>` 
  
 ## Job flow steps
  - Denote _Words_ the set of all the words in the 1-gram corpus
