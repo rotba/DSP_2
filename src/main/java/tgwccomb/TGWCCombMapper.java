@@ -1,9 +1,6 @@
 package tgwccomb;
 
-import common.DecadeBigramKey;
-import common.DecadeBigramValue;
-import common.Props;
-import common.StopWords;
+import common.*;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -29,7 +26,8 @@ public class TGWCCombMapper
         if (
                 !key.isEmpty() &&
                         !StopWords.stopWords.contains(key.getW1().toLowerCase()) &&
-                        !StopWords.stopWords.contains(key.getW2().toLowerCase())
+                        !StopWords.stopWords.contains(key.getW2().toLowerCase()) &&
+                        value.get() >= Props.min2gCountThresh
         ) {
             context.write(new DecadeBigramKey(toDecade(key.year), key.w1, key.w2), new DecadeBigramValue(-1,-1,value.get(),-1));
         }
