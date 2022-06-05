@@ -3,6 +3,7 @@ package onegramwordcount;
 import common.DecadeBigramKey;
 import common.Props;
 import common.StopWords;
+import common.Utils;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -24,28 +25,32 @@ public class OGWCMapper
 
     public void map(Text _key, Text _value, Context context
     ) throws IOException, InterruptedException {
-        if(Props.DEBUG_MODE)logger.info(String.format("XXXXXXXXXXXXXXX key:%s, value:%s", _key.toString(), _value.toString()));
+        if (Props.DEBUG_MODE)
+            logger.info(String.format("XXXXXXXXXXXXXXX key:%s, value:%s", _key.toString(), _value.toString()));
         parseKeyValue(_value);
-        if(
-                !key.isEmpty() &&
-                        !StopWords.stopWords.contains(key.getW().toLowerCase())
-        ){
-            context.write(new DecadeBigramKey(toDecade(key.year), key.w), value);
+        if (key.isEmpty()) {
+            return;
+        }
+        String cleanW = Utils.cleanWord(key.getW());
+        if (
+                !StopWords.stopWords.contains(cleanW.toLowerCase())
+        ) {
+            context.write(new DecadeBigramKey(toDecade(key.year), cleanW), value);
         }
     }
 
     private void parseKeyValue(Text _value) {
-        try{
-            if(Props.DEBUG_MODE)logger.info(String.format("line:%s", _value.toString()));
+        try {
+            if (Props.DEBUG_MODE) logger.info(String.format("line:%s", _value.toString()));
             String[] line = _value.toString().split("\\s+");
             key = new YearOneGram(line[YEAR_IDX], line[0]);
-            value = new IntWritable(Integer.parseInt(line[YEAR_IDX+1]));
-            if(Props.DEBUG_MODE)logger.info(String.format("key:%s, val:%d", key, value.get()));
-        }catch (Exception e){
+            value = new IntWritable(Integer.parseInt(line[YEAR_IDX + 1]));
+            if (Props.DEBUG_MODE) logger.info(String.format("key:%s, val:%d", key, value.get()));
+        } catch (Exception e) {
             key = new YearOneGram(true);
             value = new IntWritable(0);
             logger.error(String.format("couldnt parse line key:%s, exception message:%s", _value.toString(), e.getMessage()));
-        }catch (Throwable t){
+        } catch (Throwable t) {
             key = new YearOneGram(true);
             value = new IntWritable(0);
             logger.error(String.format("couldnt parse line key:%s, exception message:%s", _value.toString(), t.getMessage()));
