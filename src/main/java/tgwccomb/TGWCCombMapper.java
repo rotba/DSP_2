@@ -18,6 +18,13 @@ public class TGWCCombMapper
     private static int YEAR_IDX = GRAMS;
     private YearBiGram key;
     private IntWritable value;
+    private int countThresh;
+
+    @Override
+    protected void setup(Mapper<Text, Text, DecadeBigramKey, DecadeBigramValue>.Context context) throws IOException, InterruptedException {
+        super.setup(context);
+        countThresh = Integer.parseInt(context.getConfiguration().get("A"));
+    }
 
     public void map(Text _key, Text _value, Context context
     ) throws IOException, InterruptedException {
@@ -31,7 +38,7 @@ public class TGWCCombMapper
         if (
                 !StopWords.stopWords.contains(cleanW1.toLowerCase()) &&
                         !StopWords.stopWords.contains(cleanW2.toLowerCase()) &&
-                        value.get() >= Props.min2gCountThresh
+                        value.get() >= countThresh
         ) {
             context.write(new DecadeBigramKey(toDecade(key.year), cleanW1, cleanW2), new DecadeBigramValue(-1, -1, value.get(), -1));
         }

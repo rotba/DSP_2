@@ -10,9 +10,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class Main {
+    public static final String BIGRAM_COUNT_MIN_THRESH_KEY = "BIGRAM_COUNT_MIN_THRESH_KEY";
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
+        conf.set("A", String.valueOf(Props.min2gCountThresh));
         Job job = Job.getInstance(conf, "word count histogram");
         job.setJarByClass(Main.class);
         job.setMapperClass(TGWCCombMapper.class);
