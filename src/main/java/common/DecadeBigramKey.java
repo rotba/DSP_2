@@ -54,7 +54,9 @@ public class DecadeBigramKey implements WritableComparable<DecadeBigramKey>{
     }
 
     public int compareTo(DecadeBigramKey other) {
-        if(decade.compareTo(other.decade)!=0){
+        if(decade.equals(other.decade) && w1.equals(other.w1) && w2.equals(other.w2)){
+            return 0;
+        }else if(decade.compareTo(other.decade)!=0){
             return decade.compareTo(other.decade);
         }else if(!w1.equals(other.w1)){
             return w1.compareTo(other.w1);

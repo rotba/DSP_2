@@ -1,12 +1,15 @@
 package decadecount;
 
+import common.AdapterToTextTextInputFormat;
 import common.DecadeBigramPartitioner;
 import common.Props;
+import onegramwordcount.OGWCInputFormat;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileAsTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
@@ -22,7 +25,11 @@ public class Main {
         job.setPartitionerClass(DecadeCountPrtitioner.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
-        job.setInputFormatClass(DCInputFormat.class);
+        if(Props.LOCAL){
+            job.setInputFormatClass(AdapterToTextTextInputFormat.class);
+        }else{
+            job.setInputFormatClass(SequenceFileAsTextInputFormat.class);
+        }
         job.setOutputFormatClass(TextOutputFormat.class);
         if(Props.LOCAL) job.setNumReduceTasks(3);
         DCInputFormat.addInputPath(job, new Path(args[0]));

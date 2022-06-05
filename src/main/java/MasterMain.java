@@ -23,6 +23,8 @@ public class MasterMain {
             onegramwordcount.Main.main(subarray);
         }else if(job.equals("TGWC")){
             twogramworccount.Main.main(subarray);
+        }else if(job.equals("TGWCComb")){
+            tgwccomb.Main.main(subarray);
         }else if(job.equals("DECC")){
             decadecount.Main.main(subarray);
         }
