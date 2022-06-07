@@ -44,6 +44,10 @@ public class LikelihoodAndDecadeBigramKey implements WritableComparable<Likeliho
 
     @Override
     public int compareTo(LikelihoodAndDecadeBigramKey o) {
-        return Double.compare(likelihood, o.getLikelihood());
+        if(dbk.getDecade().equals(o.getDbk().getDecade())){
+            return Double.compare(likelihood, o.getLikelihood());
+        }else{
+            return dbk.getDecade().compareTo(o.getDbk().getDecade());
+        }
     }
 }

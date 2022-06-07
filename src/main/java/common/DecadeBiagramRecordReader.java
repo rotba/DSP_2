@@ -37,6 +37,12 @@ public class DecadeBiagramRecordReader extends RecordReader<DecadeBigramKey, Dec
     public boolean nextKeyValue() throws IOException, InterruptedException {
         if (reader.nextKeyValue()) {
             String[] line = reader.getCurrentValue().toString().split("\\s+");
+            if(line.length<3){
+                logger.error("XXXXXXXXXXXXXXXXXXXXXXXXYYYYYYYYYYYYYYYY" + reader.getCurrentValue());
+                key = new DecadeBigramKey(false);
+                value = new DecadeBigramValue();
+                return true;
+            }
             key = new DecadeBigramKey(line[0], line[1], line[2]);
             value = new DecadeBigramValue(
                     Integer.parseInt(line[3]),

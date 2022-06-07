@@ -15,6 +15,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         conf.set("A", String.valueOf(Props.min2gCountThresh));
+        conf.set("B", String.valueOf(Props.percentage));
         Job job = Job.getInstance(conf, "word count histogram");
         job.setJarByClass(Main.class);
         job.setMapperClass(TGWCCombMapper.class);

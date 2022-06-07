@@ -17,6 +17,12 @@ public class DecadeBigramKey implements WritableComparable<DecadeBigramKey>{
         this.w2 = null;
     }
 
+    public DecadeBigramKey(boolean dummy) {
+        this.decade = "0";
+        this.w1 = "was";
+        this.w2 = "was";
+    }
+
     public DecadeBigramKey(String decade, String w1, String w2) {
         this.decade = decade;
         this.w1 = w1;

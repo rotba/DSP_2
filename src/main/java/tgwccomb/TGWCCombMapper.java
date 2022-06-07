@@ -7,6 +7,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Random;
 
 import static common.Utils.toDecade;
 
@@ -19,11 +20,14 @@ public class TGWCCombMapper
     private YearBiGram key;
     private IntWritable value;
     private int countThresh;
+    private int filterPerc;
+    private Random rand = new Random();
 
     @Override
     protected void setup(Mapper<Text, Text, DecadeBigramKey, DecadeBigramValue>.Context context) throws IOException, InterruptedException {
         super.setup(context);
         countThresh = Integer.parseInt(context.getConfiguration().get("A"));
+        filterPerc = Integer.parseInt(context.getConfiguration().get("B"));
     }
 
     public void map(Text _key, Text _value, Context context
@@ -35,6 +39,12 @@ public class TGWCCombMapper
         }
         String cleanW1 = Utils.cleanWord(key.getW1());
         String cleanW2 = Utils.cleanWord(key.getW2());
+        if(Utils.filterWord(cleanW1) || Utils.filterWord(cleanW2)){
+            return;
+        }
+        if(filterPerc < rand.nextInt(100)){
+            return;
+        }
         if (
                 !StopWords.stopWords.contains(cleanW1.toLowerCase()) &&
                         !StopWords.stopWords.contains(cleanW2.toLowerCase()) &&

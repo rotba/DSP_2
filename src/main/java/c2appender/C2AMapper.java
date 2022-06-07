@@ -12,7 +12,9 @@ public class C2AMapper
     public static final Logger logger = Logger.getLogger(C2AMapper.class);
     public void map(DecadeBigramKey key, DecadeBigramValue value, Context context
     ) throws IOException, InterruptedException {
-        logger.info(key.toString());
+        if(key.getW1().equals("was")){
+            return;
+        }
         if(key.getW2().equals(DecadeBigramKey.STAR)){
             context.write(key, value);
         }else{

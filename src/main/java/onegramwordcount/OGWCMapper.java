@@ -32,6 +32,9 @@ public class OGWCMapper
             return;
         }
         String cleanW = Utils.cleanWord(key.getW());
+        if(Utils.filterWord(cleanW)){
+            return;
+        }
         if (
                 !StopWords.stopWords.contains(cleanW.toLowerCase())
         ) {
