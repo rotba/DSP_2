@@ -5,6 +5,8 @@
 ## Artifacts
 - [Results](https://s3.console.aws.amazon.com/s3/buckets/jarbucket1653138772100?region=us-east-1&prefix=fouts/&showversions=false)
 - [Steps statistics](https://s3.console.aws.amazon.com/s3/buckets/aws-logs-494081938343-us-east-1?region=us-east-1&prefix=elasticmapreduce/j-1DFJDUJD78PTU/steps/&showversions=false)
+- [English statistics]([url](https://s3.console.aws.amazon.com/s3/buckets/aws-logs-494081938343-us-east-1?region=us-east-1&prefix=elasticmapreduce/j-38IU6FVRC6OW9/steps/eng_run/&showversions=false))
+- [Hebrew statistics]([url](https://s3.console.aws.amazon.com/s3/buckets/aws-logs-494081938343-us-east-1?region=us-east-1&prefix=elasticmapreduce/j-1DFJDUJD78PTU/steps/heb_run/&showversions=false))
 
 ## How to run
 - The jar is already in the an s3
